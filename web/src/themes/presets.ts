@@ -160,6 +160,155 @@ export const cyberpunkTheme: DashboardTheme = {
   },
 };
 
+/**
+ * A Hyprland-inspired desktop treatment: floating translucent tiles, a
+ * lavender/cyan accent pair, and a subtle wallpaper grid. This stays a
+ * theme so every existing page and plugin inherits the same visual language.
+ */
+export const hyprlandTheme: DashboardTheme = {
+  name: "hyprland",
+  label: "Hyprland",
+  description: "Floating glass tiles with lavender and cyan accents",
+  palette: {
+    background: { hex: "#0b0914", alpha: 1 },
+    midground: { hex: "#cdd6f4", alpha: 1 },
+    foreground: { hex: "#ffffff", alpha: 0 },
+    warmGlow: "rgba(203, 166, 247, 0.48)",
+    noiseOpacity: 0.45,
+  },
+  typography: {
+    ...DEFAULT_TYPOGRAPHY,
+    fontSans: `"Inter", ${SYSTEM_SANS}`,
+    fontMono: `"JetBrains Mono", ${SYSTEM_MONO}`,
+    fontUrl:
+      "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+    baseSize: "14px",
+    letterSpacing: "-0.006em",
+  },
+  layout: {
+    radius: "0.9rem",
+    density: "comfortable",
+  },
+  layoutVariant: "tiled",
+  assets: {
+    bg: [
+      "radial-gradient(circle at 16% 16%, rgba(203, 166, 247, 0.18), transparent 28%)",
+      "radial-gradient(circle at 84% 10%, rgba(137, 220, 235, 0.14), transparent 25%)",
+      "radial-gradient(circle at 74% 88%, rgba(180, 190, 254, 0.12), transparent 30%)",
+      "linear-gradient(145deg, #090711 0%, #11111b 48%, #0a0d16 100%)",
+    ].join(", "),
+  },
+  terminalBackground: "#090711",
+  colorOverrides: {
+    card: "rgba(17, 17, 27, 0.74)",
+    cardForeground: "#cdd6f4",
+    popover: "rgba(17, 17, 27, 0.96)",
+    popoverForeground: "#cdd6f4",
+    primary: "#cba6f7",
+    primaryForeground: "#11111b",
+    secondary: "rgba(137, 220, 235, 0.12)",
+    secondaryForeground: "#89dceb",
+    muted: "rgba(49, 50, 68, 0.72)",
+    mutedForeground: "#a6adc8",
+    accent: "rgba(203, 166, 247, 0.16)",
+    accentForeground: "#f5e0ff",
+    destructive: "#f38ba8",
+    destructiveForeground: "#11111b",
+    success: "#a6e3a1",
+    warning: "#f9e2af",
+    border: "rgba(203, 166, 247, 0.24)",
+    input: "rgba(205, 214, 244, 0.16)",
+    ring: "#89dceb",
+  },
+  seriesColors: {
+    inputTokenAccent: "#cba6f7",
+    outputTokenAccent: "#89dceb",
+  },
+  swatchColors: ["#0b0914", "#cba6f7", "#89dceb"],
+  componentStyles: {
+    sidebar: {
+      background:
+        "linear-gradient(180deg, rgba(24, 24, 37, 0.9), rgba(17, 17, 27, 0.82))",
+    },
+    backdrop: {
+      fillerOpacity: "0",
+    },
+  },
+  customCSS: `
+    html[data-layout-variant="tiled"] body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      opacity: 0.16;
+      background-image:
+        linear-gradient(rgba(205, 214, 244, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(205, 214, 244, 0.07) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(to bottom, black, transparent 82%);
+    }
+
+    html[data-layout-variant="tiled"] #app-sidebar {
+      border-color: rgba(203, 166, 247, 0.34);
+      box-shadow:
+        0 0 0 1px rgba(137, 220, 235, 0.08),
+        0 18px 55px rgba(0, 0, 0, 0.42),
+        0 0 32px rgba(203, 166, 247, 0.08);
+    }
+
+    html[data-layout-variant="tiled"] :is([data-slot="card"], .bg-card) {
+      border-color: rgba(203, 166, 247, 0.24);
+      background: linear-gradient(145deg, rgba(30, 30, 46, 0.78), rgba(17, 17, 27, 0.7));
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.035),
+        0 12px 36px rgba(0, 0, 0, 0.24);
+      backdrop-filter: blur(18px) saturate(1.15);
+    }
+
+    html[data-layout-variant="tiled"] :is(button, a, [role="button"]) {
+      transition: border-color 160ms ease, background-color 160ms ease,
+        box-shadow 160ms ease, color 160ms ease, transform 160ms ease;
+    }
+
+    html[data-layout-variant="tiled"] :is(button, [role="button"]):hover {
+      border-color: rgba(137, 220, 235, 0.48);
+    }
+
+    html[data-layout-variant="tiled"] :focus-visible {
+      outline: 2px solid #89dceb;
+      outline-offset: 2px;
+    }
+
+    @media (min-width: 1024px) {
+      html[data-layout-variant="tiled"] #app-sidebar {
+        height: calc(100dvh - 1.25rem);
+        max-height: calc(100dvh - 1.25rem);
+        margin: 0.625rem 0 0.625rem 0.625rem;
+        border: 1px solid rgba(203, 166, 247, 0.34);
+        border-radius: 1rem;
+      }
+
+      html[data-layout-variant="tiled"] #app-sidebar + * {
+        min-width: 0;
+        margin: 0.625rem;
+        overflow: hidden;
+        border: 1px solid rgba(137, 220, 235, 0.2);
+        border-radius: 1rem;
+        background: rgba(11, 9, 20, 0.54);
+        box-shadow: 0 18px 55px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(12px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html[data-layout-variant="tiled"] :is(button, a, [role="button"]) {
+        transition: none;
+      }
+    }
+  `,
+};
+
 export const roseTheme: DashboardTheme = {
   name: "rose",
   label: "Rosé",
@@ -307,5 +456,6 @@ export const BUILTIN_THEMES: Record<string, DashboardTheme> = {
   ember: emberTheme,
   mono: monoTheme,
   cyberpunk: cyberpunkTheme,
+  hyprland: hyprlandTheme,
   rose: roseTheme,
 };
